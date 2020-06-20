@@ -1,7 +1,15 @@
 <template>
   <div id="app">
     <div id="main">
-      <Index />
+      <transition name="fade">
+        <Index  v-show="show.index" />
+      </transition>
+      <transition name="fade">
+        <Choice v-show="show.choice" :options="options" />
+      </transition>
+      <transition name="fade">
+        <Success v-show="show.success" :data="form" />
+      </transition>
       <div id="brand" class="pos-a">
         <svg xmlns="http://www.w3.org/2000/svg" x="0px" y="0px" viewBox="0 0 1172.26 182.45" style="enable-background:new 0 0 1172.26 182.45;">
           <path d="M116.42,82.77c-0.96-18.07-2.11-39.79-1.92-55.93h-0.58c-4.42,15.18-9.8,31.33-16.34,49.2l-22.87,62.85H62.03 L41.08,77.2c-6.15-18.26-11.34-34.98-14.99-50.36H25.7c-0.38,16.15-1.35,37.86-2.5,57.28l-3.46,55.55H3.79l9.03-129.54h21.33 l22.1,62.66c5.38,15.95,9.8,30.18,13.07,43.63h0.58c3.27-13.07,7.88-27.29,13.65-43.63l23.06-62.66h21.33l8.07,129.54h-16.34 L116.42,82.77z"/>
@@ -27,7 +35,9 @@
 
 <script>
 
-import Index from './components/Index'
+import Index   from './components/Index'
+import Choice  from './components/Choice'
+import Success from './components/Success'
 
 // import 'normalize.css'
 import 'reset-css'
@@ -37,7 +47,35 @@ import Vue from 'vue'
 export default {
   name: 'App',
   components: {
-    Index
+    Index, Choice, Success
+  },
+  data() {
+    return {
+      show: {
+        index:    false,
+        choice:   false,
+        form:     false,
+        success:  true
+      },
+      soap: [
+        'M+0 知心的朋友賣皂',
+        'M+0 賺來的新台幣賣皂',
+        'M+0 未婚的愛人賣皂',
+        'M+0 練好的腹肌賣皂',
+        'M+0 沒放的年假賣皂',
+        'M+0 說好的加薪賣皂'
+      ],
+      form: {
+        soap:     'M+0 知心的朋友賣皂',
+        option:   null,
+        name:     '王小明',
+        date:     '2020/07/16',
+        mobile:   null,
+        email:    null,
+        address:  null
+      },
+      options: [false, false, false, false, false, false]
+    }
   },
   mounted() {
     // 品牌 LOGO 動畫
@@ -49,6 +87,14 @@ export default {
       delay: function(el, i) { return (i + 1) * 125 },
       complete: function() {  }
     });
+  },
+  methods: {
+    chooseOption(index) {
+      this.options = [false, false, false, false, false, false];
+      this.options[index] = true;
+      this.form.soap = this.soap[index];
+      this.form.option = index;
+    }
   }
 }
 
@@ -146,10 +192,12 @@ a, a:hover {
 .btn {
   position: relative;
   display: inline-block;
+  min-width: 140px;
   height: 45px;
   padding: 0 15px;
   vertical-align: top;
   border-radius: 45px;
+  box-sizing: border-box;
   background-color: #fff;
   > img {
     margin-top: 14.5px;
@@ -167,6 +215,16 @@ a, a:hover {
 .text-hide {
   font-size: 0;
   text-indent: -5000px;
+}
+
+.fade-enter-active, 
+.fade-leave-active {
+  transition: .75s opacity;
+}
+
+.fade-enter, 
+.fade-leave-to {
+  opacity: 0;
 }
 
 </style>
