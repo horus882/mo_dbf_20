@@ -36,7 +36,7 @@
         <div class="for-success"></div>
       </div>
     </div>
-    <div id="loading">
+    <div id="loading" v-show="show.loading">
       <div class="loader">
         <svg class="circular" viewBox="25 25 50 50">
           <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
@@ -69,7 +69,8 @@ export default {
         email:  /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
       },
       show: {
-        index:    true,
+        loading:  true,
+        index:    false,
         choice:   false,
         form:     false,
         success:  false
@@ -85,6 +86,8 @@ export default {
         date:     null
       }
     }
+  },
+  created() {
   },
   mounted() {
     // Moulin Orange 動畫
@@ -220,6 +223,8 @@ a, a:hover {
       left: 0;
       width: 100%;
       height: 100%;
+    }
+    .for-index {
     }
   }
 
