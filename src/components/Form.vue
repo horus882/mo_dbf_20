@@ -9,7 +9,7 @@
     </div>
     <div class="btns pos-a">
       <a href="#" class="btn-back btn-primary btn" v-on:click.prevent="changePage('form', 'choice')"><img v-bind:src="require('@/assets/form/btn-back.png')" width="70" alt="重新選擇"></a>
-      <a href="#" class="btn-submit btn-primary btn"><img v-bind:src="require('@/assets/form/btn-submit.png')" width="69" alt="確認送出" v-on:click.prevent="submitForm"></a>
+      <a href="#" class="btn-submit btn-primary btn" v-on:click.prevent="submitForm"><img v-bind:src="require('@/assets/form/btn-submit.png')" width="69" alt="確認送出"></a>
     </div>
   </section>
 </template>
@@ -43,6 +43,7 @@ export default {
       schema: {
         fields: [
           {
+            id: 'name',
             type: 'input',
             inputType: 'text',
             label: '姓名:',
@@ -52,6 +53,7 @@ export default {
             required: true
           },
           {
+            id: 'mobile',
             type: 'input',
             inputType: 'tel',
             label: '手機:',
@@ -62,6 +64,7 @@ export default {
             // validator: VueFormGenerator.validators.string
           },
           {
+            id: 'email',
             type: 'input',
             inputType: 'email',
             label: 'Mail:',
@@ -71,6 +74,7 @@ export default {
             // placeholder: 'User\'s e-mail address'
           },
           {
+            id: 'address',
             type: 'input',
             inputType: 'text',
             label: '地址:',
@@ -79,6 +83,7 @@ export default {
             validator: VueFormGenerator.validators.string
           },
           {
+            id: 'date',
             type: 'select',
             label: '取貨時間:',
             model: 'date',

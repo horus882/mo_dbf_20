@@ -5,7 +5,7 @@
         <Index  v-show="show.index" />
       </transition>
       <transition name="fade">
-        <Choice v-show="show.choice" :soaps="soaps" />
+        <Choice v-show="show.choice" :soaps="soaps" :isSelected="form.option" />
       </transition>
       <transition name="fade">
         <Form v-show="show.form" :data="form" />
@@ -64,6 +64,23 @@ export default {
   },
   data() {
     return {
+      preload: [
+        require('@/assets/common/brand.svg'),
+        require('@/assets/index/caption.svg'),
+        require('@/assets/index/character.png'),
+        require('@/assets/index/text.png'),
+        require('@/assets/choice/option-1.png'),
+        require('@/assets/choice/option-2.png'),
+        require('@/assets/choice/option-3.png'),
+        require('@/assets/choice/option-4.png'),
+        require('@/assets/choice/option-5.png'),
+        require('@/assets/choice/option-6.png'),
+        require('@/assets/choice/text.png'),
+        require('@/assets/form/panel.png'),
+        require('@/assets/form/text.png'),
+        require('@/assets/success/card.png'),
+        require('@/assets/success/text.png')
+      ],
       checkFormat: {
         mobile: /^[09]{2}[0-9]{8}$/,
         email:  /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
@@ -77,17 +94,32 @@ export default {
       },
       soaps: [ { name: '知心的朋友賣皂', selected: false }, { name: '賺來的新台幣賣皂', selected: false }, { name: '未婚的愛人賣皂', selected: false }, { name: '練好的腹肌賣皂', selected: false }, { name: '沒放的年假賣皂', selected: false }, { name: '說好的加薪賣皂', selected: false } ],
       form: {
-        option:   null,
-        soap:     null,
-        name:     null,
-        mobile:   null,
-        email:    null,
-        address:  null,
-        date:     null
+        option:   null, // 肥皂 ID 應該用不到
+        soap:     null, // 肥皂名稱 [String]
+        name:     null, // 預約姓名 [String]
+        mobile:   null, // 手機    [String]
+        email:    null, // Email  [String]
+        address:  null, // 地址    [String]
+        date:     null  // 07/14  [String]
       }
     }
   },
   created() {
+
+    var count = 0;
+    var total = this.preload.length;
+
+    for (let i = 0; i < total; i++) {
+      var img = new Image();
+      img.onload = () => {
+        count++;
+        if (count == total) {
+          setTimeout(() => this.changePage('loading', 'index'), 3000);
+        }
+      }
+      img.src = this.preload[i];
+    }
+    console.log(this.preload);
   },
   mounted() {
     // Moulin Orange 動畫

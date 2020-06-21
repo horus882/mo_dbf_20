@@ -12,7 +12,7 @@
       </li>
     </ul>
     <div class="btns pos-a">
-      <a href="#" class="btn-primary btn" v-on:click.prevent="changePage('choice', 'form')"><img v-bind:src="require('@/assets/choice/btn.png')" width="35" alt="確認"></a>
+      <a href="#" class="btn-primary btn" v-if="isSelected != null" v-on:click.prevent="changePage('choice', 'form')"><img v-bind:src="require('@/assets/choice/btn.png')" width="35" alt="確認"></a>
     </div>
   </section>
 </template>
@@ -21,7 +21,8 @@
 export default {
   name: 'Choice',
   props: {
-    soaps: Array
+    soaps: Array,
+    isSelected: Number
   },
   methods: {
     chooseOption(index) {
