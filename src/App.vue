@@ -5,7 +5,7 @@
         <Index  v-show="show.index" />
       </transition>
       <transition name="fade">
-        <Choice v-show="show.choice" :options="options" />
+        <Choice v-show="show.choice" :soaps="soaps" />
       </transition>
       <transition name="fade">
         <Success v-show="show.success" :data="form" />
@@ -39,7 +39,6 @@ import Index   from './components/Index'
 import Choice  from './components/Choice'
 import Success from './components/Success'
 
-// import 'normalize.css'
 import 'reset-css'
 
 import Vue from 'vue'
@@ -57,28 +56,21 @@ export default {
         form:     false,
         success:  true
       },
-      soap: [
-        'M+0 知心的朋友賣皂',
-        'M+0 賺來的新台幣賣皂',
-        'M+0 未婚的愛人賣皂',
-        'M+0 練好的腹肌賣皂',
-        'M+0 沒放的年假賣皂',
-        'M+0 說好的加薪賣皂'
+      soaps: [ { name: '知心的朋友賣皂', selected: false }, { name: '賺來的新台幣賣皂', selected: false }, { name: '未婚的愛人賣皂', selected: false }, { name: '練好的腹肌賣皂', selected: false }, { name: '沒放的年假賣皂', selected: false }, { name: '說好的加薪賣皂', selected: false }
       ],
       form: {
-        soap:     'M+0 知心的朋友賣皂',
+        soap:     '知心的朋友賣皂',
         option:   null,
         name:     '王小明',
         date:     '2020/07/16',
         mobile:   null,
         email:    null,
         address:  null
-      },
-      options: [false, false, false, false, false, false]
+      }
     }
   },
   mounted() {
-    // 品牌 LOGO 動畫
+    // Moulin Orange 動畫
     Vue.$animeJS({
       targets: '#brand path',
       strokeDashoffset: [Vue.$animeJS.setDashoffset, 0],
@@ -90,9 +82,9 @@ export default {
   },
   methods: {
     chooseOption(index) {
-      this.options = [false, false, false, false, false, false];
-      this.options[index] = true;
-      this.form.soap = this.soap[index];
+      for (var i = 0; i < this.soaps.length; i++) { this.soaps[i].selected = false; }
+      this.soaps[index].selected = true;
+      this.form.soap = this.soaps[index].name;
       this.form.option = index;
     }
   }

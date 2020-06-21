@@ -7,12 +7,9 @@
       來選擇你想要的M+0賣皂種類吧
     </p>
     <ul class="options">
-      <li v-bind:class="{'selected': options[0]}"><a v-on:click="chooseOption(0)" class="option-1 option pos-a text-hide">M+0 知心的朋友賣皂</a></li>
-      <li v-bind:class="{'selected': options[1]}"><a v-on:click="chooseOption(1)" class="option-2 option pos-a text-hide">M+0 賺來的新台幣賣皂</a></li>
-      <li v-bind:class="{'selected': options[2]}"><a v-on:click="chooseOption(2)" class="option-3 option pos-a text-hide">M+0 未婚的愛人賣皂</a></li>
-      <li v-bind:class="{'selected': options[3]}"><a v-on:click="chooseOption(3)" class="option-4 option pos-a text-hide">M+0 練好的腹肌賣皂</a></li>
-      <li v-bind:class="{'selected': options[4]}"><a v-on:click="chooseOption(4)" class="option-5 option pos-a text-hide">M+0 沒放的年假賣皂</a></li>
-      <li v-bind:class="{'selected': options[5]}"><a v-on:click="chooseOption(5)" class="option-6 option pos-a text-hide">M+0 說好的加薪賣皂</a></li>
+      <li v-for="(item, index) in soaps" v-bind:key="index" v-bind:class="{'selected': soaps[index].selected}">
+        <a v-on:click="chooseOption(index)" class="option pos-a text-hide" v-bind:class="'option-' + (index + 1)">item.name</a>
+      </li>
     </ul>
     <div class="btns pos-a">
       <a href="#" class="btn-primary btn"><img v-bind:src="require('@/assets/choice/btn.png')" width="35" alt="確認"></a>
@@ -24,7 +21,7 @@
 export default {
   name: 'Choice',
   props: {
-    options: Array
+    soaps: Array
   },
   methods: {
     chooseOption(index) {
