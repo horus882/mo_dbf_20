@@ -90,11 +90,11 @@ export default {
   created() {
   },
   mounted() {
-    window.onload = () => {
-      setTimeout(() => {
-        this.changePage('loading', 'index');
-      }, 3000);
-    }
+    // window.onload = () => {
+    //   setTimeout(() => {
+    //     this.changePage('loading', 'index');
+    //   }, 3000);
+    // }
     // Moulin Orange 動畫
     Vue.$animeJS({
       targets: '#brand path',
