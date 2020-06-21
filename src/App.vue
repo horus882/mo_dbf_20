@@ -8,6 +8,9 @@
         <Choice v-show="show.choice" :soaps="soaps" />
       </transition>
       <transition name="fade">
+        <Form v-show="show.form" :data="form" />
+      </transition>
+      <transition name="fade">
         <Success v-show="show.success" :data="form" />
       </transition>
       <div id="brand" class="pos-a">
@@ -37,6 +40,7 @@
 
 import Index   from './components/Index'
 import Choice  from './components/Choice'
+import Form    from './components/Form'
 import Success from './components/Success'
 
 import 'reset-css'
@@ -46,26 +50,25 @@ import Vue from 'vue'
 export default {
   name: 'App',
   components: {
-    Index, Choice, Success
+    Index, Choice, Form, Success
   },
   data() {
     return {
       show: {
         index:    false,
         choice:   false,
-        form:     false,
-        success:  true
+        form:     true,
+        success:  false
       },
-      soaps: [ { name: '知心的朋友賣皂', selected: false }, { name: '賺來的新台幣賣皂', selected: false }, { name: '未婚的愛人賣皂', selected: false }, { name: '練好的腹肌賣皂', selected: false }, { name: '沒放的年假賣皂', selected: false }, { name: '說好的加薪賣皂', selected: false }
-      ],
+      soaps: [ { name: '知心的朋友賣皂', selected: false }, { name: '賺來的新台幣賣皂', selected: false }, { name: '未婚的愛人賣皂', selected: false }, { name: '練好的腹肌賣皂', selected: false }, { name: '沒放的年假賣皂', selected: false }, { name: '說好的加薪賣皂', selected: false } ],
       form: {
-        soap:     '知心的朋友賣皂',
         option:   null,
+        soap:     '知心的朋友賣皂',
         name:     '王小明',
-        date:     '2020/07/16',
         mobile:   null,
         email:    null,
-        address:  null
+        address:  null,
+        date:     '2020/07/16'
       }
     }
   },

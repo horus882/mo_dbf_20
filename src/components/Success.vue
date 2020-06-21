@@ -1,6 +1,6 @@
 <template>
   <section id="success">
-    <h2 class="caption text-hide"></h2>
+    <h2 class="caption text-hide">預約成功</h2>
     <p class="text pos-a text-hide">我們已收到您的訂單！</p>
     <div class="card pos-a">
       <p>
