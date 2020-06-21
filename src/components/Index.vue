@@ -7,7 +7,7 @@
       以趨吉避凶的艾草，全手工製造，能洗淨你的苦悶煩燥，讓美好的下半年如願來到
     </p>
     <div class="btns pos-a">
-      <a href="#" class="btn-primary btn"><img v-bind:src="require('@/assets/index/btn.png')" width="109" alt="我要M+0賣皂"></a>
+      <a href="#" class="btn-primary btn" v-on:click.prevent="changePage('index', 'choice')"><img v-bind:src="require('@/assets/index/btn.png')" width="109" alt="我要M+0賣皂"></a>
     </div>
   </section>
 </template>
@@ -21,6 +21,11 @@ export default {
   props: {
   },
   mounted() {
+  },
+  methods: {
+    changePage(leavePage, enterPage) {
+      this.$parent.changePage(leavePage, enterPage);
+    }
   }
 }
 </script>

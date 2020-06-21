@@ -8,8 +8,8 @@
       <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
     </div>
     <div class="btns pos-a">
-      <a href="#" class="btn-back btn-primary btn"><img v-bind:src="require('@/assets/form/btn-back.png')" width="70" alt="重新選擇"></a>
-      <a href="#" class="btn-submit btn-primary btn"><img v-bind:src="require('@/assets/form/btn-submit.png')" width="69" alt="確認送出"></a>
+      <a href="#" class="btn-back btn-primary btn" v-on:click.prevent="changePage('form', 'choice')"><img v-bind:src="require('@/assets/form/btn-back.png')" width="70" alt="重新選擇"></a>
+      <a href="#" class="btn-submit btn-primary btn"><img v-bind:src="require('@/assets/form/btn-submit.png')" width="69" alt="確認送出" v-on:click.prevent="submitForm"></a>
     </div>
   </section>
 </template>
@@ -29,11 +29,16 @@ export default {
   data() {
     return {
       model: {
-        name: 'John Doe',
+        // name: null,
+        // mobile: null,
+        // email: null,
+        // address: null,
+        // date: null
+        name: 'Brent',
         mobile: '0912345678',
-        email: 'john.doe@gmail.com',
+        email: 'brent@gmail.com',
         address: '台北市中山區農安街',
-        date: ['7/14']
+        date: '07/14'
       },
       schema: {
         fields: [
@@ -59,9 +64,10 @@ export default {
           {
             type: 'input',
             inputType: 'email',
-            label: 'E-mail:',
+            label: 'Mail:',
             model: 'email',
             required: true,
+            // validator: VueFormGenerator.validators.email
             // placeholder: 'User\'s e-mail address'
           },
           {
@@ -70,14 +76,24 @@ export default {
             label: '地址:',
             model: 'address',
             required: true,
-            // validator: VueFormGenerator.validators.string
+            validator: VueFormGenerator.validators.string
           },
           {
             type: 'select',
             label: '取貨時間:',
             model: 'date',
             required: true,
-            values: ['7/14', '7/15', '7/16']
+            selectOptions : { 
+              hideNoneSelectedText: true,
+            },
+            values: ['07/14', '07/15', '07/16']
+            // values: function() {
+            //   return [
+            //     { id: 0, name: "07/14" },
+            //     { id: 1, name: "07/15" },
+            //     { id: 2, name: "07/16" }
+            //   ]
+            // }
           }
           // https://jsfiddle.net/sjordan/r81k8240/
           // {
@@ -91,18 +107,25 @@ export default {
         ]
       },
       formOptions: {
-        validateAfterLoad: true,
+        validateAfterLoad: false,
         validateAfterChanged: true,
         validateAsync: true
       }
     }
   },
   methods: {
+    submitForm() {
+      // console.log(this.model);
+      this.$parent.submitForm(this.model);
+    },
+    changePage(leavePage, enterPage) {
+      this.$parent.changePage(leavePage, enterPage);
+    }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 
 #form {
 
@@ -123,8 +146,42 @@ export default {
     left: 40px;
     width: 242px;
     height: 313px;
+    padding: 53px 20px 0;
     background: url(../assets/form/panel.png) 0 0 no-repeat;
     background-size: contain;
+    box-sizing: border-box;
+    .form-group {
+      display: table;
+      height: 38px;
+      color: #2e4974;
+      font-size: 15px;
+      border-radius: 19px;
+      border: #e19228 1px solid;
+      margin-bottom: 12px;
+      > label, .field-wrap {
+        display: table-cell;
+        height: 100%;
+        vertical-align: middle;
+      }
+      > label {
+        width: 52px;
+        padding-left: 15px;
+      }
+      .field-wrap {
+        width: 151px;
+        padding-right: 10px;
+        .form-control {
+          border: 0;
+          box-shadow: none;
+          background: none;
+        }
+      }
+      &.required > label:after {content: none;}
+      &:last-child {
+        > label {width: 81px;}
+        .field-wrap {width: 122px;}
+      }
+    }
   }
 
   .btns {

@@ -12,7 +12,7 @@
       </li>
     </ul>
     <div class="btns pos-a">
-      <a href="#" class="btn-primary btn"><img v-bind:src="require('@/assets/choice/btn.png')" width="35" alt="確認"></a>
+      <a href="#" class="btn-primary btn" v-on:click.prevent="changePage('choice', 'form')"><img v-bind:src="require('@/assets/choice/btn.png')" width="35" alt="確認"></a>
     </div>
   </section>
 </template>
@@ -26,6 +26,9 @@ export default {
   methods: {
     chooseOption(index) {
       this.$parent.chooseOption(index);
+    },
+    changePage(leavePage, enterPage) {
+      this.$parent.changePage(leavePage, enterPage);
     }
   }
 }

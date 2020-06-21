@@ -31,6 +31,16 @@
       </div>
       <div class="background">
         <div class="for-index"></div>
+        <div class="for-choice"></div>
+        <div class="for-form"></div>
+        <div class="for-success"></div>
+      </div>
+    </div>
+    <div id="loading">
+      <div class="loader">
+        <svg class="circular" viewBox="25 25 50 50">
+          <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+        </svg>
       </div>
     </div>
   </div>
@@ -54,21 +64,25 @@ export default {
   },
   data() {
     return {
+      checkFormat: {
+        mobile: /^[09]{2}[0-9]{8}$/,
+        email:  /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
+      },
       show: {
-        index:    false,
+        index:    true,
         choice:   false,
-        form:     true,
+        form:     false,
         success:  false
       },
       soaps: [ { name: '知心的朋友賣皂', selected: false }, { name: '賺來的新台幣賣皂', selected: false }, { name: '未婚的愛人賣皂', selected: false }, { name: '練好的腹肌賣皂', selected: false }, { name: '沒放的年假賣皂', selected: false }, { name: '說好的加薪賣皂', selected: false } ],
       form: {
         option:   null,
-        soap:     '知心的朋友賣皂',
-        name:     '王小明',
+        soap:     null,
+        name:     null,
         mobile:   null,
         email:    null,
         address:  null,
-        date:     '2020/07/16'
+        date:     null
       }
     }
   },
@@ -84,11 +98,46 @@ export default {
     });
   },
   methods: {
+    changePage(leavePage, enterPage) {
+      this.show[leavePage] = false;
+      this.show[enterPage] = true;
+    },
     chooseOption(index) {
       for (var i = 0; i < this.soaps.length; i++) { this.soaps[i].selected = false; }
       this.soaps[index].selected = true;
       this.form.soap = this.soaps[index].name;
       this.form.option = index;
+    },
+    submitForm(model) {
+      this.form.name    = model.name;
+      this.form.mobile  = model.mobile;
+      this.form.email   = model.email;
+      this.form.address = model.address;
+      this.form.date    = model.date;
+      if (this.form.name == null) {
+        alert('請填寫姓名');
+        return false;
+      } else if (this.form.mobile == null) {
+        alert('請填寫手機');
+        return false;
+      } else if (!this.checkFormat.mobile.test(this.form.mobile)) {
+        alert('請填寫正確的手機號碼格式');
+        return false;
+      } else if (this.form.email == null) {
+        alert('請填寫 Mail');
+        return false;
+      } else if (!this.checkFormat.email.test(this.form.email)) {
+        alert('請填寫正確的 Mail 格式');
+        return false;
+      } else if (this.form.address == null) {
+        alert('請填寫地址');
+        return false;
+      } else if (this.form.date == null) {
+        alert('請填寫取貨時間');
+        return false;
+      }
+      console.log(this.form);
+      this.changePage('form', 'success');
     }
   }
 }
@@ -127,17 +176,19 @@ a, a:hover {
 
   position: relative;
   width: 318px;
+  height: 720px;
   margin: 0 auto;
   border-radius: 20px;
 
   > section {
 
-    position: relative;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    // position: relative;
     min-height: 720px;
     z-index: 2;
-    // position: absolute;
-    // top: 0;
-    // left: 0;
 
   }
 
@@ -210,6 +261,82 @@ a, a:hover {
 .text-hide {
   font-size: 0;
   text-indent: -5000px;
+}
+
+#loading {
+	display: block;
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+  background: #fcf6e8;
+	// backdrop-filter: blur(3px);
+	z-index: 99;
+  .loader {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 80px;
+    margin: -40px 0 0 -40px;
+    &::before {
+      content: '';
+      display: block;
+      padding-top: 100%;
+    }
+  }
+  .circular {
+    animation: rotate 2s linear infinite;
+    transform-origin: center center;
+    position: absolute;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    margin: auto;
+  }
+  .path {
+    stroke-dasharray: 1, 200;
+    stroke-dashoffset: 0;
+    animation: dash 1.5s ease-in-out infinite, color 6s ease-in-out infinite;
+    stroke-linecap: round;
+  }
+}
+
+@keyframes rotate {
+	100% {
+    transform: rotate(360deg);
+	}
+}
+
+@keyframes dash {
+	0% {
+		stroke-dasharray: 1, 200;
+		stroke-dashoffset: 0;
+	}
+	50% {
+		stroke-dasharray: 89, 200;
+		stroke-dashoffset: -35px;
+	}
+	100% {
+		stroke-dasharray: 89, 200;
+		stroke-dashoffset: -124px;
+	}
+}
+
+@keyframes color {
+	100%,
+	0% {
+		stroke: #f05665;
+	}
+	33% {
+		stroke: #2d4873;
+	}
+  66% {
+    stroke: #fac529;
+  }
 }
 
 .fade-enter-active, 

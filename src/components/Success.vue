@@ -21,6 +21,9 @@ export default {
     data: Object
   },
   methods: {
+    changePage(leavePage, enterPage) {
+      this.$parent.changePage(leavePage, enterPage);
+    }
   }
 }
 </script>
