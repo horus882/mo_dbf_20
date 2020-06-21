@@ -4,6 +4,9 @@ import App from './App.vue'
 import VueAnime from './vue-anime';
 Vue.use(VueAnime);
 
+// import preloadImage from 'vue-preload-image';
+// Vue.component('preload-image', preloadImage);
+
 Vue.config.productionTip = false
 
 new Vue({

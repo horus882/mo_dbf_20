@@ -36,7 +36,7 @@
         <div class="for-success"></div>
       </div>
     </div>
-    <div id="loading" v-show="show.loading">
+    <div id="loading">
       <div class="loader">
         <svg class="circular" viewBox="25 25 50 50">
           <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
@@ -69,8 +69,7 @@ export default {
         email:  /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
       },
       show: {
-        loading:  true,
-        index:    false,
+        index:    true,
         choice:   false,
         form:     false,
         success:  false
@@ -87,14 +86,15 @@ export default {
       }
     }
   },
-  created() {
-  },
   mounted() {
+<<<<<<< HEAD
     // window.onload = () => {
     //   setTimeout(() => {
     //     this.changePage('loading', 'index');
     //   }, 3000);
     // }
+=======
+>>>>>>> parent of 3e10044... 導入 vue-preload-image 之前
     // Moulin Orange 動畫
     Vue.$animeJS({
       targets: '#brand path',

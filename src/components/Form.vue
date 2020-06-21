@@ -43,7 +43,6 @@ export default {
       schema: {
         fields: [
           {
-            id: 'name',
             type: 'input',
             inputType: 'text',
             label: '姓名:',
@@ -53,7 +52,6 @@ export default {
             required: true
           },
           {
-            id: 'mobile',
             type: 'input',
             inputType: 'tel',
             label: '手機:',
@@ -64,7 +62,6 @@ export default {
             // validator: VueFormGenerator.validators.string
           },
           {
-            id: 'email',
             type: 'input',
             inputType: 'email',
             label: 'Mail:',
@@ -74,7 +71,6 @@ export default {
             // placeholder: 'User\'s e-mail address'
           },
           {
-            id: 'address',
             type: 'input',
             inputType: 'text',
             label: '地址:',
@@ -83,7 +79,6 @@ export default {
             validator: VueFormGenerator.validators.string
           },
           {
-            id: 'date',
             type: 'select',
             label: '取貨時間:',
             model: 'date',
