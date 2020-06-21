@@ -87,11 +87,6 @@ export default {
     }
   },
   mounted() {
-    // window.onload = () => {
-    //   setTimeout(() => {
-    //     this.changePage('loading', 'index');
-    //   }, 3000);
-    // }
     // Moulin Orange 動畫
     Vue.$animeJS({
       targets: '#brand path',
