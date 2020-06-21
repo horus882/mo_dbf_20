@@ -87,14 +87,11 @@ export default {
     }
   },
   mounted() {
-<<<<<<< HEAD
     // window.onload = () => {
     //   setTimeout(() => {
     //     this.changePage('loading', 'index');
     //   }, 3000);
     // }
-=======
->>>>>>> parent of 3e10044... 導入 vue-preload-image 之前
     // Moulin Orange 動畫
     Vue.$animeJS({
       targets: '#brand path',
