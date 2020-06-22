@@ -1,8 +1,8 @@
 <template>
-  <section id="success">
+  <section id="success" class="page-intro">
     <h2 class="caption text-hide">預約成功</h2>
-    <p class="text pos-a text-hide">我們已收到您的訂單！</p>
-    <div class="card pos-a">
+    <p class="text pos-a text-hide elem elem-enter elem-leave">我們已收到您的訂單！</p>
+    <div class="card pos-a elem elem-enter elem-leave">
       <p>
         {{ data.name }}，您好<br>
         Moulin Orange 將於<br>
@@ -56,11 +56,18 @@ export default {
     background-size: contain;
     transform: rotateX(0deg);
     transform-origin: center bottom;
+    transition-delay: .2s;
     p {
       padding-top: 38px;
     }
   }
 
+}
+
+#success.page-intro {
+  .card {
+    transform: rotateX(100deg);
+  }
 }
 
 </style>

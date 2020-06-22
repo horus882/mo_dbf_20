@@ -1,15 +1,15 @@
 <template>
-  <section id="form">
+  <section id="form" class="page-intro">
     <h2 class="caption text-hide">填寫表單</h2>
-    <p class="text pos-a">
+    <p class="text pos-a elem elem-enter elem-leave">
       [ M+0 {{ data.soap }} ]
     </p>
-    <div class="panel pos-a">
+    <div class="panel pos-a elem elem-enter elem-leave">
       <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
     </div>
     <div class="btns pos-a">
-      <a href="#" class="btn-back btn-primary btn" v-on:click.prevent="changePage('form', 'choice')"><img v-bind:src="require('@/assets/form/btn-back.png')" width="70" alt="重新選擇"></a>
-      <a href="#" class="btn-submit btn-primary btn" v-on:click.prevent="submitForm"><img v-bind:src="require('@/assets/form/btn-submit.png')" width="69" alt="確認送出"></a>
+      <a href="#" class="btn-back btn-primary btn elem elem-enter elem-leave" v-on:click.prevent="changePage('form', 'choice')"><img v-bind:src="require('@/assets/form/btn-back.png')" width="70" alt="重新選擇"></a>
+      <a href="#" class="btn-submit btn-primary btn elem elem-enter elem-leave" v-on:click.prevent="submitForm"><img v-bind:src="require('@/assets/form/btn-submit.png')" width="69" alt="確認送出"></a>
     </div>
   </section>
 </template>
@@ -144,6 +144,7 @@ export default {
     padding-top: 26px;
     background: url(../assets/form/text.png) center top no-repeat;
     background-size: 91px 15px;
+    transition-delay: .1s;
   }
 
   .panel {
@@ -155,6 +156,7 @@ export default {
     background: url(../assets/form/panel.png) 0 0 no-repeat;
     background-size: contain;
     box-sizing: border-box;
+    transition-delay: .2s;
     .form-group {
       display: table;
       height: 38px;
@@ -194,6 +196,12 @@ export default {
     .btn {
       min-width: 116px;
       margin: 0 3px;
+    }
+    .btn-back {
+      transition-delay: .3s;
+    }
+    .btn-submit {
+      transition-delay: .4s;
     }
   }
 

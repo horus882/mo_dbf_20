@@ -1,13 +1,13 @@
 <template>
-  <section id="index">
-    <h1 class="caption pos-a"><img v-bind:src="require('@/assets/index/caption.svg')" alt="賣皂"></h1>
-    <div class="character pos-a"></div>
-    <p class="text pos-a text-hide">
+  <section id="index" class="page-intro">
+    <h1 class="caption pos-a elem elem-enter elem-leave"><img v-bind:src="require('@/assets/index/caption.svg')" alt="賣皂"></h1>
+    <div class="character pos-a elem elem-enter elem-leave"></div>
+    <p class="text pos-a text-hide elem elem-enter elem-leave">
       Keep+0 Then Go Beyond<br>
       以趨吉避凶的艾草，全手工製造，能洗淨你的苦悶煩燥，讓美好的下半年如願來到
     </p>
     <div class="btns pos-a">
-      <a href="#" class="btn-primary btn" v-on:click.prevent="changePage('index', 'choice')"><img v-bind:src="require('@/assets/index/btn.png')" width="109" alt="我要M+0賣皂"></a>
+      <a href="#" class="btn-primary btn elem elem-enter elem-leave" v-on:click.prevent="changePage('index', 'choice')"><img v-bind:src="require('@/assets/index/btn.png')" width="109" alt="我要M+0賣皂"></a>
     </div>
   </section>
 </template>
@@ -47,6 +47,7 @@ export default {
     height: 488px;
     background: url(../assets/index/character.png) 0 0 no-repeat;
     background-size: contain;
+    transition-delay: .1s;
   }
 
   .text {
@@ -56,11 +57,19 @@ export default {
     height: 149px;
     background: url(../assets/index/text.png) 0 0 no-repeat;
     background-size: contain;
+    transition-delay: .25s;
   }
 
   .btns {
     top: 638px;
+    .btn {
+      transition-delay: .4s;
+    }
   }
+
+}
+
+#index.page-intro {
 
 }
 

@@ -1,8 +1,8 @@
 <template>
   <div id="app">
-    <div id="main">
+    <div id="main" class="site-intro">
       <transition name="fade">
-        <Index  v-show="show.index" />
+        <Index v-show="show.index" />
       </transition>
       <transition name="fade">
         <Choice v-show="show.choice" :soaps="soaps" :isSelected="form.option" />
@@ -30,19 +30,31 @@
         </svg>
       </div>
       <div class="background">
-        <div class="for-index"></div>
-        <div class="for-choice"></div>
-        <div class="for-form"></div>
-        <div class="for-success"></div>
+        <transition name="fade">
+          <div class="for-index" v-show="show.index"></div>
+        </transition>
+        <transition name="fade">
+          <div class="for-others" v-show="!show.index"></div>
+        </transition>
+<!--
+        <transition name="fade">
+          <div class="for-form" v-show="show.form"></div>
+        </transition>
+        <transition name="fade">
+          <div class="for-success" v-show="show.success"></div>
+        </transition>
+-->
       </div>
     </div>
-    <div id="loading" v-show="show.loading">
-      <div class="loader">
-        <svg class="circular" viewBox="25 25 50 50">
-          <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
-        </svg>
+    <transition name="fade">
+      <div id="loading" v-show="show.loading">
+        <div class="loader">
+          <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+          </svg>
+        </div>
       </div>
-    </div>
+    </transition>
   </div>
 </template>
 
@@ -69,6 +81,7 @@ export default {
         require('@/assets/index/caption.svg'),
         require('@/assets/index/character.png'),
         require('@/assets/index/text.png'),
+        require('@/assets/index/bg.jpg'),
         require('@/assets/choice/option-1.png'),
         require('@/assets/choice/option-2.png'),
         require('@/assets/choice/option-3.png'),
@@ -114,7 +127,9 @@ export default {
       img.onload = () => {
         count++;
         if (count == total) {
-          setTimeout(() => this.changePage('loading', 'index'), 3000);
+          setTimeout(() => {
+            this.changePage('loading', 'index')
+          }, 1500);
         }
       }
       img.src = this.preload[i];
@@ -122,20 +137,34 @@ export default {
     console.log(this.preload);
   },
   mounted() {
-    // Moulin Orange 動畫
-    Vue.$animeJS({
-      targets: '#brand path',
-      strokeDashoffset: [Vue.$animeJS.setDashoffset, 0],
-      easing: 'easeInOutQuad',
-      duration: 2250,
-      delay: function(el, i) { return (i + 1) * 125 },
-      complete: function() {  }
-    });
   },
   methods: {
     changePage(leavePage, enterPage) {
-      this.show[leavePage] = false;
-      this.show[enterPage] = true;
+      let timer = (leavePage == 'loading') ? 1200 : 500;
+      document.querySelector('#' + leavePage).classList.add('page-outro');
+      setTimeout(() => {
+        this.show[leavePage] = false;
+        this.show[enterPage] = true;
+      }, 350);
+      if (leavePage == 'loading') {
+        setTimeout(() => {
+          document.querySelector('#main').classList.remove('site-intro');
+        }, 850);
+        // Moulin Orange 動畫
+        Vue.$animeJS({
+          targets: '#brand path',
+          strokeDashoffset: [Vue.$animeJS.setDashoffset, 0],
+          easing: 'easeInOutQuad',
+          duration: 2250,
+          delay: function(el, i) { return (i + 1) * 125 },
+          complete: function() {  }
+        });
+      }
+      setTimeout(() => {
+        document.querySelector('#' + leavePage).classList.remove('page-outro');
+        document.querySelector('#' + leavePage).classList.add('page-intro');
+        document.querySelector('#' + enterPage).classList.remove('page-intro');
+      }, timer);
     },
     chooseOption(index) {
       for (var i = 0; i < this.soaps.length; i++) { this.soaps[i].selected = false; }
@@ -249,17 +278,29 @@ a, a:hover {
     border-radius: 20px;
     overflow: hidden;
     z-index: 1;
+    transition: .5s cubic-bezier(0.25, 1, 0.5, 1);
     > div {
       position: absolute;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
+      background-position: center top;
+      background-repeat: no-repeat;
+      background-size: 100% auto;
     }
-    .for-index {
-    }
+    .for-index   { background-image: url(./assets/index/bg.jpg); }
+    .for-others  { background-image: url(./assets/choice/bg.jpg); }
+    // .for-form    { background-image: url(./assets/form/bg.jpg); }
+    // .for-success { background-image: url(./assets/success/bg.jpg); }
   }
 
+}
+
+#main.site-intro {
+  > .background {
+    top: 120%;
+  }
 }
 
 .btns {
@@ -282,6 +323,11 @@ a, a:hover {
   background-color: #fff;
   > img {
     margin-top: 14.5px;
+  }
+  &.disabled {
+    // opacity: 0.7;
+    background-color: #bbb;
+    pointer-events: none;
   }
 }
 
@@ -374,9 +420,25 @@ a, a:hover {
   }
 }
 
+.elem {
+  transition-property: transform, opacity;
+  transition-duration: .75s;
+  transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.page-intro .elem-enter {
+  transform: scale(0.5);
+  opacity: 0;
+}
+
+.page-outro .elem-leave {
+  transform: scale(1.5);
+  opacity: 0;
+}
+
 .fade-enter-active, 
 .fade-leave-active {
-  transition: .75s opacity;
+  transition: 1s opacity;
 }
 
 .fade-enter, 
