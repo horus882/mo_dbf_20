@@ -82,6 +82,7 @@ export default {
         require('@/assets/index/character.png'),
         require('@/assets/index/text.png'),
         require('@/assets/index/bg.jpg'),
+        require('@/assets/choice/bg.jpg'),
         require('@/assets/choice/option-1.png'),
         require('@/assets/choice/option-2.png'),
         require('@/assets/choice/option-3.png'),
@@ -94,6 +95,7 @@ export default {
         require('@/assets/success/card.png'),
         require('@/assets/success/text.png')
       ],
+      changePageTimer: null,
       checkFormat: {
         mobile: /^[09]{2}[0-9]{8}$/,
         email:  /^([A-Za-z0-9_\-.])+@([A-Za-z0-9_\-.])+\.([A-Za-z]{2,4})$/
@@ -140,7 +142,8 @@ export default {
   },
   methods: {
     changePage(leavePage, enterPage) {
-      let timer = (leavePage == 'loading') ? 1200 : 500;
+      if (this.changePageTimer !== null) return false;
+      this.changePageTimer = (leavePage == 'loading') ? 1200 : 500;
       document.querySelector('#' + leavePage).classList.add('page-outro');
       setTimeout(() => {
         this.show[leavePage] = false;
@@ -164,7 +167,10 @@ export default {
         document.querySelector('#' + leavePage).classList.remove('page-outro');
         document.querySelector('#' + leavePage).classList.add('page-intro');
         document.querySelector('#' + enterPage).classList.remove('page-intro');
-      }, timer);
+      }, this.changePageTimer);
+      setTimeout(() => {
+        this.changePageTimer = null;
+      }, this.changePageTimer + 1000);
     },
     chooseOption(index) {
       for (var i = 0; i < this.soaps.length; i++) { this.soaps[i].selected = false; }
@@ -173,6 +179,7 @@ export default {
       this.form.option = index;
     },
     submitForm(model) {
+      if (this.changePageTimer !== null) return false;
       this.form.name    = model.name;
       this.form.mobile  = model.mobile;
       this.form.email   = model.email;
@@ -434,6 +441,7 @@ a, a:hover {
 .page-outro .elem-leave {
   transform: scale(1.5);
   opacity: 0;
+  pointer-events: none;
 }
 
 .fade-enter-active, 
