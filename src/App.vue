@@ -8,7 +8,7 @@
         <Choice v-show="show.choice" :soaps="soaps" :isSelected="form.option" />
       </transition>
       <transition name="fade">
-        <Form v-show="show.form" :data="form" />
+        <Form v-show="show.form" :data="form" :sending="formSending" />
       </transition>
       <transition name="fade">
         <Success v-show="show.success" :data="form" />
@@ -68,6 +68,7 @@ import Success from './components/Success'
 import 'reset-css'
 
 import Vue from 'vue'
+import $ from 'jquery'
 
 export default {
   name: 'App',
@@ -95,6 +96,7 @@ export default {
         require('@/assets/success/card.png'),
         require('@/assets/success/text.png')
       ],
+      formSending: false,
       changePageTimer: null,
       checkFormat: {
         mobile: /^[09]{2}[0-9]{8}$/,
@@ -173,6 +175,7 @@ export default {
       }, this.changePageTimer + 1000);
     },
     chooseOption(index) {
+      if (this.changePageTimer !== null) return false;
       for (var i = 0; i < this.soaps.length; i++) { this.soaps[i].selected = false; }
       this.soaps[index].selected = true;
       this.form.soap = this.soaps[index].name;
@@ -208,7 +211,91 @@ export default {
         return false;
       }
       console.log(this.form);
-      this.changePage('form', 'success');
+
+      this.formSending = true;
+      var self = this;
+
+      $.ajax({
+        type: 'POST',
+        cache: false,
+        url: 'http://www.moulin-orange.com/event/20dbf/api/sendData.php',
+        // dataType: 'json',
+        data: {
+          name: this.form.name,
+          mobile: this.form.mobile,
+          email: this.form.email,
+          address: this.form.address,
+          date: this.form.date,
+          soap: this.form.soap
+        },
+        success: function(response) {
+          if (response == 'succ') {
+            self.changePage('form', 'success');
+          } else if (response == 'noData') {
+            alert('請填寫必填資料');
+          } else if (response == 'fail') {
+            alert('發生錯誤，請稍後再試');
+          }
+          setTimeout(() => {
+            self.formSending = false;
+          }, 1000);
+        },
+        error: function() {
+          alert('發生錯誤，請稍後再試');
+        }
+      });
+
+      // this.axios
+      //   .post('http://www.moulin-orange.com/event/20dbf/api/sendData.php', {
+      //     name: this.form.name,
+      //     mobile: this.form.mobile,
+      //     email: this.form.email,
+      //     address: this.form.address,
+      //     date: this.form.date,
+      //     soap: this.form.soap
+      //   })
+      //   .then(response => {
+      //     console.log(response);
+      //     // if success
+      //     setTimeout(() => {
+      //       this.formSending = false;
+      //     }, 1000);
+      //     this.changePage('form', 'success');
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+
+      // this.axios({
+      //     method: 'post',
+      //     url: 'http://www.moulin-orange.com/event/20dbf/api/sendData.php',
+      //     data: {
+      //       name: this.form.name,
+      //       mobile: this.form.mobile,
+      //       email: this.form.email,
+      //       address: this.form.address,
+      //       date: this.form.date,
+      //       soap: this.form.soap
+      //     },
+      //     'Content-Type': 'application/json'
+      //   })
+      //   .then(response => {
+      //     console.log(response);
+      //     if (response.data == 'succ') {
+      //       this.changePage('form', 'success');
+      //     } else if (response.data == 'noData') {
+      //       alert('請填寫必填資料');
+      //     } else if (response.data == 'fail') {
+      //       alert('發生錯誤，請稍後再試');
+      //     }
+      //     setTimeout(() => {
+      //       this.formSending = false;
+      //     }, 1000);
+      //   })
+      //   .catch(error => {
+      //     console.log(error);
+      //   });
+
     }
   }
 }
@@ -427,10 +514,21 @@ a, a:hover {
   }
 }
 
+@keyframes form-loader-color {
+	100%,
+	0% {
+		stroke: #2d4873;
+	}
+}
+
 .elem {
   transition-property: transform, opacity;
   transition-duration: .75s;
   transition-timing-function: cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.page-intro, .page-outro {
+  pointer-events: none;
 }
 
 .page-intro .elem-enter {

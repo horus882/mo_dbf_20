@@ -5,7 +5,18 @@
       [ M+0 {{ data.soap }} ]
     </p>
     <div class="panel pos-a elem elem-enter elem-leave">
-      <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
+      <transition name="fade">
+        <div class="panel-form" v-if="!sending">
+          <vue-form-generator :schema="schema" :model="model" :options="formOptions"></vue-form-generator>
+        </div>
+      </transition>
+      <transition name="fade">
+        <div class="panel-loader" v-if="sending">
+          <svg class="circular" viewBox="25 25 50 50">
+            <circle class="path" cx="50" cy="50" r="20" fill="none" stroke-width="3" stroke-miterlimit="10"/>
+          </svg>
+        </div>
+      </transition>
     </div>
     <div class="btns pos-a">
       <a href="#" class="btn-back btn-primary btn elem elem-enter elem-leave" v-on:click.prevent="changePage('form', 'choice')"><img v-bind:src="require('@/assets/form/btn-back.png')" width="70" alt="重新選擇"></a>
@@ -24,7 +35,8 @@ Vue.use(VueFormGenerator)
 export default {
   name: 'Form',
   props: {
-    data: Object
+    data: Object,
+    sending: Boolean
   },
   data() {
     return {
@@ -189,6 +201,37 @@ export default {
         .field-wrap {width: 122px;}
       }
     }
+    .panel-loader {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 80px;
+      margin: -40px 0 0 -40px;
+      &::before {
+        content: '';
+        display: block;
+        padding-top: 100%;
+      }
+    }
+    .circular {
+      animation: rotate 2s linear infinite;
+      transform-origin: center center;
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      margin: auto;
+    }
+    .path {
+      stroke-dasharray: 1, 200;
+      stroke-dashoffset: 0;
+      animation: dash 1.5s ease-in-out infinite, form-loader-color 6s ease-in-out infinite;
+      stroke-linecap: round;
+    }
+
   }
 
   .btns {
