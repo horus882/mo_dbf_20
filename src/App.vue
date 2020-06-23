@@ -436,8 +436,8 @@ input, select {
   }
   &.disabled {
     // opacity: 0.7;
-    background-color: #c7c7c7;
-    pointer-events: none;
+    // background-color: #ff7489;
+    // pointer-events: none;
   }
 }
 

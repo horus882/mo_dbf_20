@@ -30,6 +30,10 @@ export default {
       this.$parent.chooseOption(index);
     },
     changePage(leavePage, enterPage) {
+      if (this.isSelected == null) {
+        alert('請選擇你想要的 M+0 賣皂種類');
+        return false;
+      }
       this.$parent.changePage(leavePage, enterPage);
     },
     isDisabled() {
