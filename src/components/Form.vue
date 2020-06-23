@@ -41,16 +41,11 @@ export default {
   data() {
     return {
       model: {
-        // name: null,
-        // mobile: null,
-        // email: null,
-        // address: null,
-        // date: null
-        name: 'Brent',
-        mobile: '0912345678',
-        email: 'brent@gmail.com',
-        address: '台北市中山區農安街',
-        date: '07/14'
+        name: null,
+        mobile: null,
+        email: null,
+        address: null,
+        date: null
       },
       schema: {
         fields: [
@@ -92,18 +87,18 @@ export default {
             label: '地址:',
             model: 'address',
             required: true,
-            validator: VueFormGenerator.validators.string
+            // validator: VueFormGenerator.validators.string
           },
           {
             id: 'date',
             type: 'select',
-            label: '取貨時間:',
+            label: '收貨時間:',
             model: 'date',
             required: true,
             selectOptions : { 
               hideNoneSelectedText: true,
             },
-            values: ['07/14', '07/15', '07/16']
+            values: ['07/15', '07/16', '07/17']
             // values: function() {
             //   return [
             //     { id: 0, name: "07/14" },
@@ -132,7 +127,6 @@ export default {
   },
   methods: {
     submitForm() {
-      // console.log(this.model);
       this.$parent.submitForm(this.model);
     },
     changePage(leavePage, enterPage) {

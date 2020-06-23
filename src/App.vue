@@ -36,14 +36,6 @@
         <transition name="fade">
           <div class="for-others" v-show="!show.index"></div>
         </transition>
-<!--
-        <transition name="fade">
-          <div class="for-form" v-show="show.form"></div>
-        </transition>
-        <transition name="fade">
-          <div class="for-success" v-show="show.success"></div>
-        </transition>
--->
       </div>
     </div>
     <transition name="fade">
@@ -77,6 +69,7 @@ export default {
   },
   data() {
     return {
+      isMobile: null,
       preload: [
         require('@/assets/common/brand.svg'),
         require('@/assets/index/caption.svg'),
@@ -123,6 +116,16 @@ export default {
   },
   created() {
 
+    if (/Android|webOS|iPhone|iPod|iPad|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+      this.isMobile = true;
+      console.log('[Mobile]');
+      document.body.classList.remove('desktop');
+    } else {
+      this.isMobile = false;
+      console.log('[Desktop]');
+      document.body.classList.add('desktop');
+    }
+
     var count = 0;
     var total = this.preload.length;
 
@@ -138,13 +141,13 @@ export default {
       }
       img.src = this.preload[i];
     }
-    console.log(this.preload);
   },
   mounted() {
   },
   methods: {
     changePage(leavePage, enterPage) {
       if (this.changePageTimer !== null) return false;
+      $('html, body').animate({scrollTop: 0}, 500);
       this.changePageTimer = (leavePage == 'loading') ? 1200 : 500;
       document.querySelector('#' + leavePage).classList.add('page-outro');
       setTimeout(() => {
@@ -207,10 +210,9 @@ export default {
         alert('請填寫地址');
         return false;
       } else if (this.form.date == null) {
-        alert('請填寫取貨時間');
+        alert('請填寫收貨時間');
         return false;
       }
-      console.log(this.form);
 
       this.formSending = true;
       var self = this;
@@ -218,7 +220,7 @@ export default {
       $.ajax({
         type: 'POST',
         cache: false,
-        url: 'http://www.moulin-orange.com/event/20dbf/api/sendData.php',
+        url: '/event/20dbf/api/sendData.php',
         // dataType: 'json',
         data: {
           name: this.form.name,
@@ -325,9 +327,23 @@ a, a:hover {
   padding: 60px 0 32px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  // text-align: center;
-  // color: #2c3e50;
-  // margin-top: 60px;
+  overflow: hidden;
+}
+
+.desktop #app {
+  height: 100vh;
+  padding: 0;
+  background: url(assets/common/bg.jpg) center top no-repeat;
+  background-size: auto 100%;
+}
+
+.desktop #app #main,
+.desktop #app #loading {
+  display: none!important;
+}
+
+input, select {
+  font-family: 'Lato', 'sourcehansans-tc', 'Noto Sans S Chinese', 'Noto Sans TC', 'PingFang TC', 'Microsoft JhengHei', Tahoma, Verdana, Arial, Helvetica, sans-serif;
 }
 
 #main {
@@ -420,7 +436,7 @@ a, a:hover {
   }
   &.disabled {
     // opacity: 0.7;
-    background-color: #bbb;
+    background-color: #c7c7c7;
     pointer-events: none;
   }
 }

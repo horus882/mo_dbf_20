@@ -11,8 +11,8 @@
         <a v-on:click="chooseOption(index)" class="option pos-a text-hide elem elem-enter elem-leave" v-bind:class="'option-' + (index + 1)">item.name</a>
       </li>
     </ul>
+    <p class="note pos-a elem elem-enter elem-leave">7/1前預訂截止</p>
     <div class="btns pos-a">
-      <!-- <a href="#" class="btn-primary btn" v-if="isSelected != null" v-on:click.prevent="changePage('choice', 'form')"><img v-bind:src="require('@/assets/choice/btn.png')" width="35" alt="確認"></a> -->
       <a href="#" class="btn-primary btn elem elem-enter elem-leave" v-bind:class="isDisabled()" v-on:click.prevent="changePage('choice', 'form')"><img v-bind:src="require('@/assets/choice/btn.png')" width="35" alt="確認"></a>
     </div>
   </section>
@@ -114,6 +114,14 @@ export default {
         transition-delay: .7s;
       }
     }
+  }
+
+  .note {
+    top: 578px;
+    width: 100%;
+    color: #2e4974;
+    font-size: 12px;
+    text-align: center;
   }
 
   .btns {
