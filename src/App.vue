@@ -110,7 +110,8 @@ export default {
         mobile:   null, // 手機    [String]
         email:    null, // Email  [String]
         address:  null, // 地址    [String]
-        date:     null  // 07/14  [String]
+        date:     null,  // 07/14  [String]
+        from:     null
       }
     }
   },
@@ -141,6 +142,9 @@ export default {
       }
       img.src = this.preload[i];
     }
+
+    this.form.from = this.getParameterByName('from');
+
   },
   mounted() {
   },
@@ -228,7 +232,8 @@ export default {
           email: this.form.email,
           address: this.form.address,
           date: this.form.date,
-          soap: this.form.soap
+          soap: this.form.soap,
+          from: this.form.from
         },
         success: function(response) {
           if (response == 'succ') {
@@ -298,6 +303,12 @@ export default {
       //     console.log(error);
       //   });
 
+    },
+    getParameterByName(name) {
+      name = name.replace(/[[]/, "\\[").replace(/[\]]/, "\\]");
+      var regex = new RegExp("[\\?&]" + name + "=([^&#]*)"),
+      results = regex.exec(location.search);
+      return results === null ? "" : decodeURIComponent(results[1].replace(/\+/g, " "));
     }
   }
 }
