@@ -39,7 +39,7 @@ export default {
       var currentDate = new Date();
       // alert(expiryDate + '\n' + currentDate);
       if (currentDate >= expiryDate) {
-        alert('抱歉，預定已經截止囉');
+        alert('抱歉，預訂已經截止囉');
         return false;
       }
       this.$parent.changePage(leavePage, enterPage);
