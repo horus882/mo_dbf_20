@@ -34,14 +34,14 @@ export default {
         alert('請選擇你想要的 M+0 賣皂種類');
         return false;
       }
-      var expiryDateString = '2020-06-30T16:00:00Z'; // 要減 8 小時
-      var expiryDate = new Date(expiryDateString);
-      var currentDate = new Date();
-      // alert(expiryDate + '\n' + currentDate);
-      if (currentDate >= expiryDate) {
-        alert('抱歉，預訂已經截止囉');
-        return false;
-      }
+      // var expiryDateString = '2020-06-30T16:00:00Z'; // 要減 8 小時
+      // var expiryDate = new Date(expiryDateString);
+      // var currentDate = new Date();
+      // // alert(expiryDate + '\n' + currentDate);
+      // if (currentDate >= expiryDate) {
+      //   alert('抱歉，預訂已經截止囉');
+      //   return false;
+      // }
       this.$parent.changePage(leavePage, enterPage);
     },
     isDisabled() {
